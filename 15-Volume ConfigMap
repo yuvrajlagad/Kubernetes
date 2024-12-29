@@ -1,0 +1,28 @@
+ # mysql.yml file:
+
+ apiVersion: v1
+kind: Pod
+metadata:
+  name: mysqlwala
+spec:
+  containers:
+     - name: mysqlwalacontainer
+       image: mysql:8.0
+       env:
+         - name: MYSQL_ROOT_PASSWORD
+           valueFrom:
+               configMapKeyRef:
+                  name: mysql-config
+                  key: mysql-password
+
+
+- To create configmap:
+kubectl create configmap mysql-config --from-literal mysql-password=Pass@123
+- To view ConfigMap:
+kubectl get configmap
+- To describe configmap
+kubectl describe configmap mysql-config
+- To create pod :
+kubectl apply -f mysql.yml
+- To view pods:
+kubectl get pods
