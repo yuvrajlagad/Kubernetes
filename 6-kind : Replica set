@@ -1,0 +1,37 @@
+# rs1.yml:
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+   name: myrc
+spec:
+  replicas: 3
+  selector:
+   matchLabels:
+      env: dev
+  template:
+       metadata:
+          labels:
+              env: dev
+       spec:
+            containers:
+                 - name: nginxcontaine
+                   image: nginx
+                   ports:
+                     - containerPort: 80
+
+
+# Instructions to Use:
+
+- Create 3 files
+1) rs1.yml : name: myrc and lable env=dev
+2) rs2.yml : name: myrc1 and lable env=prod
+3) rs3.yml : name: myrc2 and lable env=testing
+- Create pods using above files:
+kubectl apply -f rs1.yml
+kubectl apply -f rs2.yml
+kubectl apply -f rs3.yml
+- To view list of pods:
+kubectl get pods
+- To view two pods with different lables:
+kubectl get pods --selector 'env in (dev,testing)'
