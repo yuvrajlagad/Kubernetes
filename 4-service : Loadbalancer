@@ -1,0 +1,37 @@
+# lbservice.yml:
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: loadwalaservice
+spec:
+  type: LoadBalancer
+  selector:
+      app: myapp
+  ports:
+   - protocol: TCP
+     port: 80
+     targetPort: 80
+
+
+
+# Instruction to Use:
+
+- Create a lbservice.yml file.
+- To create service using that file:
+kubectl apply -f loadwalaservice.yml
+- To view list of Services:
+kubectl get services
+
+- Create  AWS load balancer with following SG settings:
+- Load balancer security group:
+Inbound rule:
+port : podport and source : worker node SG
+Outbond rule:
+port: podport and source : worker node SG
+- Worker node security group:
+Inbound rule:
+port: podport and source : load balancer SG
+Outbond rule:
+TCP , ALL , load balancer SG
+Health check port : podport
